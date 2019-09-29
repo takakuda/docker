@@ -10,7 +10,7 @@ services:
       - api
     environment:
       WORKER_PROCESSES: 2
-      WORKER_CONNECTIONS: 2
+      WORKER_CONNECTIONS: 1024
       KEEPALIVE_TIMEOUT: 65
       GZIP: "on"
       BACKEND_HOST: todo_app_api:8080
