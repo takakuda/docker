@@ -1,5 +1,26 @@
 version: "3"
 services:
+  nginx:
+    image : registry:5000/ch04/nginx:latest
+    deploy:
+      replicas: 2
+      placement:
+        constraints: [node.role != manager]
+    depends_on:
+      - api
+    environment:
+      WORKER_PROCESSES: 2
+      WORKER_CONNECTIONS: 2
+      KEEPALIVE_TIMEOUT: 65
+      GZIP: "on"
+      BACKEND_HOST: todo_app_api:8080
+      BACKEND_MAX_FAILES: 3
+      BACKEND_FAIL_TIMEOUT: 10s
+      SERVER_PORT: 80
+      SERVER_NAME: todo_app_nginx
+      LOGS_STDOUT: "true"
+    networks:
+      - todoapp
   api:
     image: registry:5000/ch04/todoapi:latest
     deploy:
