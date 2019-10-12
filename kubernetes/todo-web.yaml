@@ -52,7 +52,7 @@ spec:
           name: assets
 
       - name: web
-        image: guhyodocker/todoweb:latest
+        image: gihyodocker/todoweb:latest
         imagePullPolicy: Always
         lifecycle:
           postStart:
