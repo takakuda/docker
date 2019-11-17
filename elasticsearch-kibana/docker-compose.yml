@@ -15,3 +15,26 @@ services:
       ELASTICSEARCH_URL: "http://elasticsearch:9200"
     depends_on:
     - elasticsearch
+
+  fluentd:
+    image: ch08/fluentd-elasticsearch:latest
+    ports:
+      - "24224:24224"
+      - "24220:24220"
+      - "24224:24224/udp"
+    depends_on:
+    - elasticsearch
+
+  echo:
+    image: gihyodocker/echo:latest
+    ports:
+    - "8080:8080"
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: "localhost:24224"
+        tag: "docker.{{.Name}}"
+    depends_on:
+    - fluentd
+
+
